@@ -9,6 +9,8 @@ class Tabungan extends Model
 {
     use HasFactory;
 
+    protected $table = 'tabungans';
+
     protected $fillable = [
         'id_user', 'judul', 'foto', 'target_nominal', 'target_tanggal', 'nominal_terkumpul', 'status_tercapai'
     ];
@@ -22,4 +24,6 @@ class Tabungan extends Model
     {
         return $this->hasMany(Menabung::class);
     }
+
+    public $timestamps = false;
 }

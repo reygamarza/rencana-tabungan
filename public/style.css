@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #e7e7e7;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-custom {
+    background-color: #1abc9c;
+    padding: 30px;
+    border-radius: 0px 0px 50px 50px;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-left: 15px;
+}
+
+.navbar-brand:hover {
+    color: #e0f7fa;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #fff;
+    margin-left: 15px;
+    font-weight: 500;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #e0f7fa;
+}
+
+.content {
+    padding: 20px;
+}
+
+.welcome-section {
+    margin-bottom: 30px;
+}
+
+.savings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    justify-content: center;
+    padding: 0 15px;
+}
+
+.savings-card {
+    background-color: #1abc9c;
+    color: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.savings-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.savings-image-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    margin: 0;
+}
+
+.savings-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.savings-card:hover .savings-image {
+    transform: scale(1.05);
+}
+
+/* .savings-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 15px 15px 0px 0px;
+}
+
+.savings-card:hover .savings-image-overlay {
+    opacity: 1;
+} */
+
+.savings-content {
+    padding: 20px;
+}
+
+.savings-card-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.savings-card-info {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.progress {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    height: 10px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: white;
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.savings-card-status {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.savings-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+
+.savings-button {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    color: #1abc9c;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+form .savings-button {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: white;
+    color: #1abc9c;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.savings-button.edit {
+    border-radius: 10px 0px 0px 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.savings-button.hapus {
+    border-radius: 0px 10px 10px 0px;
+}
+
+.savings-button:hover {
+    background-color: #16a085;
+    color: white;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn {
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+    color: #1abc9c;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 15px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn.btn-tambah {
+    padding: 20px 50px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #16a085;
+    color: white;
+}
+
+.btn.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.btn.btn-danger:hover {
+    background-color: #fff;
+    color: #dc3545;
+}
+
+@media (max-width: 768px) {
+    .navbar-custom {
+        padding: 30px 15px 30px 15px;
+        border-radius: 0px 0px 30px 30px;
+    }
+
+    .navbar-brand {
+        font-size: 20px;
+    }
+
+    .savings-card {
+        border-radius: 15px;
+    }
+
+    .savings-image-container {
+        height: 150px;
+    }
+
+    .savings-card-title {
+        font-size: 20px;
+    }
+
+    .savings-card-info {
+        font-size: 15px;
+    }
+
+    .progress {
+        height: 8px;
+    }
+
+    .savings-button {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 18px;
+    }
+
+    .savings-image-container {
+        height: 120px;
+    }
+
+    .savings-card-title {
+        font-size: 18px;
+    }
+
+    .savings-card-info {
+        font-size: 15px;
+    }
+
+    .progress {
+        height: 6px;
+    }
+
+    .savings-button {
+        font-size: 10px;
+        padding: 5px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Modal Header Styling */
+
+.modal-header {
+    background-color: #16a085;
+    color: #fff;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Modal Body Styling */
+.modal-body {
+    background-color: #f9f9f9;
+    color: #333;
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
+}
+
+.btn-close:hover {
+    color: #fff;
+    background-color: #fff;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+    box-shadow: none;
+}
+
+.form-control:focus {
+    border-color: #40A2E3;
+    box-shadow: 0 0 0 0.2rem rgba(64, 162, 227, 0.25);
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* Modal Footer Styling */
+.modal-footer {
+    border-top: none;
+    background-color: #f1f1f1;
+    border-radius: 0 0 10px 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+    .modal-dialog {
+        max-width: 90%;
+    }
+}

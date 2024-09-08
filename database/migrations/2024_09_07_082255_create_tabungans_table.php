@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('target_nominal');
             $table->date('target_tanggal');
             $table->integer('nominal_terkumpul');
-            $table->enum('status_tercapai', ['Sudah Tercapai', 'Belum Tercapai']);
+            $table->enum('status_tercapai', ['Sudah Tercapai', 'Belum Tercapai'])->default('Belum Tercapai');
         });
     }
 

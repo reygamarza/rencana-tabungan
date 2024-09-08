@@ -1,60 +1,197 @@
 @extends('layouts.navbar')
 
 @section('content')
-<div class="container my-5">
-    <h2 class="text-center mb-4">{{ __('Rencana Tabungan Anda') }}</h2>
-    <div class="row">
-        @php
-            // Data dummy
-            $tabungans = [
-                [
-                    'foto' => 'images/liburan.jpg',
-                    'judul' => 'Liburan Bali',
-                    'target_nominal' => 5000000,
-                    'target_tanggal' => '2024-12-31',
-                    'nominal_saat_ini' => 2000000,
-                    'status' => false
-                ],
-                [
-                    'foto' => 'images/beli_hp.jpg',
-                    'judul' => 'Beli HP Baru',
-                    'target_nominal' => 3000000,
-                    'target_tanggal' => '2024-10-15',
-                    'nominal_saat_ini' => 1500000,
-                    'status' => false
-                ],
-                [
-                    'foto' => 'images/renovasi_rumah.jpg',
-                    'judul' => 'Renovasi Rumah',
-                    'target_nominal' => 20000000,
-                    'target_tanggal' => '2025-05-20',
-                    'nominal_saat_ini' => 18000000,
-                    'status' => true
-                ]
-            ];
-        @endphp
-
-        @foreach ($tabungans as $tabungan)
-        <div class="col-md-4 mb-4">
-            <div class="card shadow-sm">
-                <img src="{{ asset($tabungan['foto']) }}" class="card-img-top" alt="{{ $tabungan['judul'] }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $tabungan['judul'] }}</h5>
-                    <p class="card-text"><strong>Target: </strong>Rp {{ number_format($tabungan['target_nominal'], 0, ',', '.') }}</p>
-                    <p class="card-text"><strong>Tanggal Tercapai: </strong>{{ $tabungan['target_tanggal'] }}</p>
-                    <p class="card-text"><strong>Status: </strong>{{ $tabungan['status'] ? 'Tercapai' : 'Belum Tercapai' }}</p>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: {{ ($tabungan['nominal_saat_ini'] / $tabungan['target_nominal']) * 100 }}%;" aria-valuenow="{{ $tabungan['nominal_saat_ini'] }}" aria-valuemin="0" aria-valuemax="{{ $tabungan['target_nominal'] }}"></div>
-                    </div>
-                    <p class="mt-2"><strong>Nominal Saat Ini: </strong>Rp {{ number_format($tabungan['nominal_saat_ini'], 0, ',', '.') }}</p>
-                </div>
-                <div class="card-footer text-center">
-                    <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin?')">Hapus</button>
-                </div>
+    <div class="content">
+        <div class="welcome-section">
+            <div class="text-center mb-4">
+                <a href="#" class="btn btn-tambah" data-bs-toggle="modal" data-bs-target="#buatTabungan"><i
+                        class="fas fa-plus-circle"></i> Buat
+                    Tabungan </a>
             </div>
         </div>
-        @endforeach
+
+        <div class="savings-grid">
+            @foreach ($tabungan as $t)
+                <div class="savings-card">
+                    <div class="savings-image-container">
+                        <img src="{{ asset('storage/tabungan/'. $t->foto) }}" alt="{{ $t->foto }}" class="savings-image">
+                        <div class="savings-image-overlay"></div>
+                    </div>
+                    <div class="savings-content">
+                        <h2 class="savings-card-title">{{ $t->judul }}</h2>
+                        <p class="savings-card-info">Target : Rp {{ number_format($t->target_nominal, 0, ',', '.') }}</p>
+                        <p class="savings-card-info">Target Tanggal : {{ date('d M Y', strtotime($t->target_tanggal)) }}</p>
+                        <p class="savings-card-info">Terkumpul : Rp {{ number_format($t->nominal_terkumpul, 0, ',', '.') }}
+                        </p>
+                        <div class="progress">
+                            <div class="progress-bar" style="width: {{ $t->progress }}%;"></div>
+                        </div>
+                        <p class="savings-card-status">
+                            <i class="fas fa-hourglass-half"></i> In Progress
+                        </p>
+                    </div>
+                    <div class="pb-3">
+                        <form action="{{ route('hapus-tabungan', $t->id) }}" method="POST">
+                            <div class="savings-buttons-container">
+                                <a class="savings-button edit" data-bs-toggle="modal"
+                                    data-bs-target="#editTabungan{{ $t->id }}"><i class="fa fa-edit"></i>
+                                    Edit</a>
+
+                                @csrf
+                                @method('DELETE')
+                                <button class="savings-button hapus"
+                                    onclick="return confirm('Apakah Anda yakin ingin menghapus tabungan ini?')">
+                                    <i class="fa fa-trash"></i> Hapus
+                                </button>
+
+                            </div>
+                        </form>
+                        <div class="savings-buttons-container">
+                            <button class="savings-button"><i class="fa fa-piggy-bank"></i> Menabung</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal Edit Tabungan -->
+                <div class="modal fade" id="editTabungan{{ $t->id }}" tabindex="-1"
+                    aria-labelledby="editTabunganLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editTabunganLabel">Edit Tabungan</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+
+                            <!-- Modal Body -->
+                            <form action="{{ route('edit-tabungan', $t->id) }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT') <!-- Ini penting untuk edit/update data -->
+                                <div class="modal-body">
+                                    <!-- Form Edit Tabungan -->
+                                    <!-- Input Judul Tabungan -->
+                                    <div class="mb-3">
+                                        <label for="judul_tabungan" class="form-label">Judul Tabungan</label>
+                                        <input type="text" class="form-control" id="judul_tabungan" name="judul"
+                                            placeholder="Masukkan judul tabungan" value="{{ $t->judul }}" required>
+                                    </div>
+
+                                    <!-- Input Foto Tabungan -->
+                                    <div class="mb-3">
+                                        <label for="foto_tabungan" class="form-label">Foto Tabungan</label>
+
+                                        <!-- Pratinjau Foto Saat Ini -->
+                                        <div class="mb-3">
+                                            <img src="{{ asset('storage/tabungan/'. $t->foto) }}" alt="{{ $t->foto }}"
+                                                width="150px">
+                                        </div>
+
+                                        <!-- Input File untuk Mengunggah Foto Baru -->
+                                        <input type="file" class="form-control" id="foto_tabungan" name="foto"
+                                            accept="image/*">
+                                        <small class="text-muted">Unggah gambar baru jika ingin mengganti foto.</small>
+                                    </div>
+
+                                    <!-- Input Target Nominal -->
+                                    <div class="mb-3">
+                                        <label for="target_nominal" class="form-label">Target Nominal Tabungan</label>
+                                        <input type="number" class="form-control" id="target_nominal" name="target_nominal"
+                                            placeholder="Masukkan target nominal tabungan" value="{{ $t->target_nominal }}"
+                                            required>
+                                    </div>
+
+                                    <!-- Input Target Tanggal Tercapai -->
+                                    <div class="mb-3">
+                                        <label for="target_tanggal" class="form-label">Target Tanggal Tercapai</label>
+                                        <input type="date" class="form-control" id="target_tanggal" name="target_tanggal"
+                                            value="{{ $t->target_tanggal }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="nominal_terkumpul" class="form-label">Nominal Terkumpul</label>
+                                        <input type="number" class="form-control" id="nominal_terkumpul"
+                                            name="nominal_terkumpul" value="{{ $t->nominal_terkumpul }}"
+                                            placeholder="Masukkan nominal awal tabungan">
+                                    </div>
+                                </div>
+
+                                <!-- Modal Footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary">Simpan Tabungan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            <!-- Modal Tambah Tabungan -->
+            <div class="modal fade" id="buatTabungan" tabindex="-1" aria-labelledby="buatTabunganLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="buatTabunganLabel">Buat Tabungan</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+
+                        <!-- Modal Body -->
+                        <form action="{{ route('buat-tabungan') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="modal-body">
+                                <!-- Form Tambah Tabungan -->
+                                <!-- Input Judul Tabungan -->
+                                <div class="mb-3">
+                                    <label for="judul_tabungan" class="form-label">Judul Tabungan</label>
+                                    <input type="text" class="form-control" id="judul_tabungan" name="judul"
+                                        placeholder="Masukkan judul tabungan" required>
+                                </div>
+
+                                <!-- Input Foto Tabungan -->
+                                <div class="mb-3">
+                                    <label for="foto_tabungan" class="form-label">Foto Tabungan</label>
+                                    <input type="file" class="form-control" id="foto_tabungan" name="foto"
+                                        accept="image/*" required>
+                                </div>
+
+                                <!-- Input Target Nominal -->
+                                <div class="mb-3">
+                                    <label for="target_nominal" class="form-label">Target Nominal Tabungan</label>
+                                    <input type="number" class="form-control" id="target_nominal" name="target_nominal"
+                                        placeholder="Masukkan target nominal tabungan" required>
+                                </div>
+
+                                <!-- Input Target Tanggal Tercapai -->
+                                <div class="mb-3">
+                                    <label for="target_tanggal" class="form-label">Target Tanggal Tercapai</label>
+                                    <input type="date" class="form-control" id="target_tanggal" name="target_tanggal"
+                                        required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="nominal_terkumpul" class="form-label">Nominal Awal Tabungan
+                                        (Opsional)</label>
+                                    <input type="number" class="form-control" id="nominal_terkumpul"
+                                        name="nominal_terkumpul" placeholder="Masukkan nominal awal tabungan">
+                                </div>
+                            </div>
+
+                            <!-- Modal Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary">Simpan
+                                    Tabungan</button>
+                            </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
 @endsection
