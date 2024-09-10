@@ -2,13 +2,13 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #e7e7e7;
+    background-color: #c2e9fb;
     margin: 0;
     padding: 0;
 }
 
 .navbar-custom {
-    background-color: #1abc9c;
+    background-color: #4e73df;
     padding: 30px;
     border-radius: 0px 0px 50px 50px;
 }
@@ -44,15 +44,15 @@ body {
 }
 
 .savings-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
     gap: 30px;
     justify-content: center;
+    flex-wrap: wrap;
     padding: 0 15px;
 }
 
 .savings-card {
-    background-color: #1abc9c;
+    background-color: #4e73df;
     color: white;
     border-radius: 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -61,8 +61,11 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
+    max-width: 400px;
+    width: 100%;
 }
+
 
 
 .savings-card:hover {
@@ -107,6 +110,7 @@ body {
 
 .savings-content {
     padding: 20px;
+    flex-grow: 1;
 }
 
 .savings-card-title {
@@ -117,6 +121,7 @@ body {
 
 .savings-card-info {
     font-size: 15px;
+    font-weight: 500;
     margin-bottom: 10px;
 }
 
@@ -137,7 +142,7 @@ body {
 .savings-card-status {
     font-size: 16px;
     font-weight: 500;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
 .savings-buttons-container {
@@ -152,7 +157,7 @@ body {
     padding: 10px;
     border-radius: 10px;
     background-color: white;
-    color: #1abc9c;
+    color: #4e73df;
     transition: background-color 0.3s ease;
     border: none;
 }
@@ -162,7 +167,7 @@ form .savings-button {
     padding: 10px;
     border-radius: 10px;
     background-color: white;
-    color: #1abc9c;
+    color: #4e73df;
     transition: background-color 0.3s ease;
     border: none;
 }
@@ -178,7 +183,7 @@ form .savings-button {
 }
 
 .savings-button:hover {
-    background-color: #16a085;
+    background-color: #2e59d9;
     color: white;
 }
 
@@ -192,7 +197,7 @@ form .savings-button {
     background-color: white;
     border: none;
     border-radius: 15px;
-    color: #1abc9c;
+    color: #4e73df;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
@@ -207,7 +212,7 @@ form .savings-button {
 }
 
 .btn:hover {
-    background-color: #16a085;
+    background-color: #2e59d9;
     color: white;
 }
 
@@ -224,7 +229,7 @@ form .savings-button {
 @media (max-width: 768px) {
     .navbar-custom {
         padding: 30px 15px 30px 15px;
-        border-radius: 0px 0px 30px 30px;
+        border-radius: 0px 0px 15px 15px;
     }
 
     .navbar-brand {
@@ -252,7 +257,7 @@ form .savings-button {
     }
 
     .savings-button {
-        font-size: 12px;
+        font-size: 13px;
         padding: 8px;
     }
 
@@ -284,7 +289,7 @@ form .savings-button {
     }
 
     .savings-button {
-        font-size: 10px;
+        font-size: 13px;
         padding: 5px;
     }
 
@@ -297,7 +302,7 @@ form .savings-button {
 /* Modal Header Styling */
 
 .modal-header {
-    background-color: #16a085;
+    background-color: #2e59d9;
     color: #fff;
     border-bottom: none;
     border-radius: 5px 5px 0 0;

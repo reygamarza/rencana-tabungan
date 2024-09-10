@@ -17,4 +17,6 @@ class Menabung extends Model
     {
         return $this->belongsTo(Tabungan::class);
     }
+
+    public $timestamps = false;
 }

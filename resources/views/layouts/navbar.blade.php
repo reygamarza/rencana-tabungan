@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('style.css') }}">
+    <link rel=”icon” href="https://cdn-icons-png.flaticon.com/512/7630/7630510.png">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.13.3/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -15,11 +17,11 @@
     <nav class="navbar navbar-expand-lg navbar-custom">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">TabunganKu</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            {{-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
+            </button> --}}
+            <div>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-user"></i> {{ Auth::user()->nama }}</a>
@@ -41,9 +43,49 @@
     <!-- Content -->
     @yield('content')
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            @if (Session::has('berhasil'))
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil! 😁👍",
+                    text: "{{ Session::get('berhasil') }}",
+                });
+            @endif
+
+            @if (Session::has('gagal'))
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal! 😥🙏",
+                    text: "{{ Session::get('gagal') }}",
+                });
+            @endif
+        });
+
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Apakah Kamu yakin? 🤔',
+                text: "Kamu tidak dapat mengembalikan data yang telah dihapus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit form jika konfirmasi diterima
+                    document.getElementById(`delete-form-${id}`).submit();
+                }
+            });
+        }
+    </script>
+
+
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('menabungs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_tabungan');
-            $table->foreign('id_tabungan')->references('id')->on('tabungans');
+            $table->foreign('id_tabungan')->references('id')->on('tabungans')->onDelete('cascade');
             $table->integer('nominal');
             $table->date('tanggal_menabung');
         });

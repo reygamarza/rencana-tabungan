@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Menabung;
 use Illuminate\Http\Request;
 use App\Models\Tabungan;
 use Illuminate\Support\Facades\Auth;
@@ -45,8 +46,6 @@ class HomeController extends Controller
             $foto = $request->file('foto');
             $extension = $foto->getClientOriginalExtension();
             $namafoto = $id_user . '_' . $request->judul . '.' . $extension;
-            // $folderPath = 'public/tabungan';
-            // $file = $folderPath . $namafoto;
 
             $data = [
                 'id_user' => $id_user,
@@ -60,7 +59,7 @@ class HomeController extends Controller
             $simpantabungan = Tabungan::create($data);
             if ($simpantabungan) {
                 $foto->storeAs('tabungan', $namafoto, 'public');
-                return redirect()->route('home');
+                return redirect()->route('home')->with('berhasil', 'Tabungan Berhasil Dibuat');
             }
         }
     }
@@ -76,7 +75,6 @@ class HomeController extends Controller
         $tabungan->nominal_terkumpul = $request->nominal_terkumpul;
 
         if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
             if ($tabungan->foto) {
                 Storage::delete('public/' . $tabungan->foto);
             }
@@ -91,7 +89,7 @@ class HomeController extends Controller
 
         $tabungan->save();
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('berhasil', 'Tabungan Berhasil Diubah');
     }
 
     public function hapustabungan($id)
@@ -104,6 +102,24 @@ class HomeController extends Controller
 
         $tabungan->delete();
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('berhasil', 'Tabungan Berhasil Dihapus');
+    }
+
+    public function menabung(Request $request, $id)
+    {
+        $tabungan = Tabungan::findOrFail($id);
+
+        $tabungan->update([
+            'nominal_terkumpul' => $tabungan->nominal_terkumpul + $request->nominal,
+        ]);
+
+        $data = [
+            'id_tabungan' => $tabungan->id,
+            'nominal' => $request->nominal,
+            'tanggal_menabung' => now()->format('Y-m-d'),
+        ];
+
+        Menabung::create($data);
+        return redirect()->route('home')->with('berhasil', 'Anda berhasil menabung');;
     }
 }
