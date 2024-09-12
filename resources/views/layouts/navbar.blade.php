@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('style.css') }}">
-    <link rel=”icon” href="https://cdn-icons-png.flaticon.com/512/7630/7630510.png">
+    <link rel="shortcut icon" href="{{ asset('img/tesicon.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.13.3/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 
@@ -79,8 +79,33 @@
                 }
             });
         }
-    </script>
 
+        document.getElementById('nominal_terkumpul').addEventListener('input', function() {
+            var nominalTerkumpul = parseFloat(document.getElementById('nominal_terkumpul').value) || 0;
+            var targetNominal = parseFloat(document.getElementById('target_nominal').value) || 0;
+
+            var alertElement = document.getElementById('alert-nominal');
+
+            if (nominalTerkumpul > targetNominal && targetNominal > 0) {
+                alertElement.style.display = 'block'; // Menampilkan alert
+            } else {
+                alertElement.style.display = 'none'; // Menyembunyikan alert jika tidak melebihi
+            }
+        });
+
+        document.getElementById('target_nominal').addEventListener('input', function() {
+            var nominalTerkumpul = parseFloat(document.getElementById('nominal_terkumpul').value) || 0;
+            var targetNominal = parseFloat(document.getElementById('target_nominal').value) || 0;
+
+            var alertElement = document.getElementById('alert-nominal');
+
+            if (nominalTerkumpul > targetNominal) {
+                alertElement.style.display = 'block'; // Menampilkan alert
+            } else {
+                alertElement.style.display = 'none'; // Menyembunyikan alert jika tidak melebihi
+            }
+        });
+    </script>
 
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>

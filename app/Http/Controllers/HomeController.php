@@ -40,6 +40,11 @@ class HomeController extends Controller
 
     public function buattabungan(Request $request)
     {
+        if ($request->nominal_terkumpul > $request->target_nominal) {
+            return redirect()->route('home')->with('gagal', 'Nominal tidak boleh melebihi target!');;
+        }
+
+        
         if ($request->hasFile('foto'))
         {
             $id_user = Auth::user()->id;
@@ -69,10 +74,14 @@ class HomeController extends Controller
         $tabungan = Tabungan::findOrFail($id);
         $id_user = Auth::user()->id;
 
+        if ($request->nominal_terkumpul > $request->target_nominal) {
+            return redirect()->route('home')->with('gagal', 'Nominal tidak boleh melebihi target!');;
+        }
+
         $tabungan->judul = $request->judul;
         $tabungan->target_nominal = $request->target_nominal;
         $tabungan->target_tanggal = $request->target_tanggal;
-        $tabungan->nominal_terkumpul = $request->nominal_terkumpul;
+        $tabungan->nominal_terkumpul = $request->nominal_terkumpul ?? 0;
 
         if ($request->hasFile('foto')) {
             if ($tabungan->foto) {
@@ -108,6 +117,11 @@ class HomeController extends Controller
     public function menabung(Request $request, $id)
     {
         $tabungan = Tabungan::findOrFail($id);
+
+        $cekNominal = $request->nominal + $tabungan->nominal_terkumpul;
+        if ($cekNominal > $tabungan->target_nominal) {
+            return redirect()->route('home')->with('gagal', 'Nominal yang Anda masukkan melebihi target tabungan!');;
+        }
 
         $tabungan->update([
             'nominal_terkumpul' => $tabungan->nominal_terkumpul + $request->nominal,
